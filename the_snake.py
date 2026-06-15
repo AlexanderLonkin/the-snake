@@ -39,13 +39,14 @@ pygame.display.set_caption('Змейка')
 # Настройка времени:
 clock = pygame.time.Clock()
 
+# Центр экрана:
+SCREEN_CENTER = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
+
 
 class GameObject:
     """Базовый класс для всех игровых объектов."""
 
-    position = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
-
-    def __init__(self, position, body_color):
+    def __init__(self, position=None, body_color=None):
         """Инициализирует игровой объект."""
         self.position = position
         self.body_color = body_color
@@ -83,7 +84,7 @@ class Snake(GameObject):
 
     def __init__(
             self,
-            position,
+            position=SCREEN_CENTER,
             body_color=SNAKE_COLOR,
             length=1,
             direction=RIGHT,
@@ -153,7 +154,7 @@ class Snake(GameObject):
 
     def reset(self):
         """При столкновении змейки с собой, начинает игру с начала."""
-        start_position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        start_position = SCREEN_CENTER
         self.position = start_position
         self.length = 1
         self.direction = RIGHT
@@ -192,7 +193,7 @@ def main():
     """
     pygame.init()
     apple = Apple()
-    snake = Snake(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+    snake = Snake()
 
     while True:
         clock.tick(SPEED)
