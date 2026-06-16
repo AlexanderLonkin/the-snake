@@ -55,7 +55,7 @@ class GameObject:
         """
         raise NotImplementedError(
             'Метод draw должен быть реализован в дочернем классе'
-            )
+        )
 
 
 class Apple(GameObject):
