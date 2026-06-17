@@ -61,21 +61,18 @@ class GameObject:
 class Apple(GameObject):
     """Класс, представляющий яблоко в игре."""
 
-    def __init__(self, body_color=APPLE_COLOR, occupied_positions=None):
+    def __init__(self, body_color=APPLE_COLOR, occupied_positions=SCREEN_CENTER):
         """Инициализирует яблоко."""
         super().__init__(body_color)
         self.occupied = occupied_positions or []
         self.randomize_position()
 
-    def randomize_position(self, occupied=None):
+    def randomize_position(self, occupied_positions=SCREEN_CENTER):
         """Генерирует случайную позицию для яблока."""
-        if occupied is None:
-            occupied = self.occupied
         while True:
-            pos = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+            self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                    randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
-            if pos not in occupied:
-                self.position = pos
+            if self.position not in occupied_positions:
                 break
 
     def draw(self):
@@ -88,20 +85,13 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс, представляющий змейку в игре."""
 
-    def __init__(
-            self,
-            body_color=SNAKE_COLOR,
-            length=1,
-            direction=RIGHT,
-            next_direction=None,
-    ):
+    def __init__(self, body_color=SNAKE_COLOR):
         """Инициализирует змейку."""
         super().__init__(body_color)
-        self.start_position = self.position
-        self.length = length
-        self.direction = direction
-        self.next_direction = next_direction
-        self.positions = [self.start_position]
+        self.length = 1
+        self.direction = RIGHT
+        self.next_direction = None
+        self.positions = [self.position]
 
     def get_head_position(self):
         """Вычисляет позицию головы змейки после следующего шага
@@ -135,7 +125,7 @@ class Snake(GameObject):
 
     def reset(self):
         """При столкновении змейки с собой, начинает игру с начала."""
-        self.positions = [self.start_position]
+        self.positions = [self.position]
         self.length = 1
         self.direction = RIGHT
         self.next_direction = None
