@@ -94,9 +94,7 @@ class Snake(GameObject):
         self.positions = [self.position]
 
     def get_head_position(self):
-        """Вычисляет позицию головы змейки после следующего шага
-        с учётом границ экрана.
-        """
+        """Возвращает текущие координаты головы змеи."""
         head_x, head_y = self.positions[0]
         dx, dy = self.direction
         new_x = (head_x + dx * GRID_SIZE) % SCREEN_WIDTH
@@ -161,25 +159,23 @@ def main():
     """
     pygame.init()
     snake = Snake()
-    apple = Apple(occupied_positions=snake.positions)
+    apple = Apple()
 
     while True:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
+        snake.move()
         new_head = snake.get_head_position()
 
         if new_head == apple.position:
             snake.length += 1
             apple.occupied = snake.positions
-            apple.randomize_position()
-
-        snake.move()
-
-        if snake.positions[0] in snake.positions[1:]:
+            apple.randomize_position(snake.positions)
+        elif snake.get_head_position in snake.positions[1:]:
             snake.reset()
             apple.occupied = snake.positions
-            apple.randomize_position()
+            apple.randomize_position(snake.positions)
 
         screen.fill(BOARD_BACKGROUND_COLOR)
         snake.draw()
