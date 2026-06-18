@@ -98,8 +98,8 @@ class Snake(GameObject):
         return self.positions[0]
 
     def move(self):
-        """Вычисляет новое положение головы,
-        добавляет его в начало и возвращает координаты.
+        """Вычисляет новое положение головы, добавляет его в начало. 
+        При необходимости, удаляет хвост.
         """
         head_x, head_y = self.positions[0]
         dx, dy = self.direction
