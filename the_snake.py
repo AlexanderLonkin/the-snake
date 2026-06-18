@@ -62,12 +62,12 @@ class Apple(GameObject):
     """Класс, представляющий яблоко в игре."""
 
     def __init__(self, body_color=APPLE_COLOR,
-                 occupied_positions=SCREEN_CENTER):
+                 occupied_positions=(SCREEN_CENTER,)):
         """Инициализирует яблоко."""
         super().__init__(body_color)
-        self.randomize_position()
+        self.randomize_position(occupied_positions)
 
-    def randomize_position(self, occupied_positions=SCREEN_CENTER):
+    def randomize_position(self, occupied_positions):
         """Генерирует случайную позицию для яблока."""
         while True:
             self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
@@ -108,10 +108,6 @@ class Snake(GameObject):
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
         self.positions.insert(0, new_head)
-        return new_head
-
-    def trim_tail(self):
-        """При необходимости, удаляет последний сегмент змеи."""
         if len(self.positions) > self.length:
             self.positions.pop()
 
@@ -181,7 +177,6 @@ def main():
             snake.reset()
             apple.randomize_position(snake.positions)
 
-        snake.trim_tail()
         screen.fill(BOARD_BACKGROUND_COLOR)
         snake.draw()
         apple.draw()
